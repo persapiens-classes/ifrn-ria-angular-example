@@ -20,10 +20,10 @@ import { AutoFocusModule } from 'primeng/autofocus';
           <p-panel header="Insert">
             <label for="name">Name:</label>
             <input pInputText [pAutoFocus]="true" [(ngModel)]="name" placeholder="Name to be inserted">
-            <p-button label="Insert" (onClick)="insert()" />
+            <p-button icon="pi pi-plus" (onClick)="insert()" />
           </p-panel>
 
-          <p-panel header="Names">
+          <p-panel header="List">
             <p-table [value]="names" >
               <ng-template #header>
                 <tr>
@@ -34,7 +34,7 @@ import { AutoFocusModule } from 'primeng/autofocus';
               <ng-template #body let-item>
                   <tr>
                       <td>{{ item }}</td>
-                      <td><p-button label="Remove" (onClick)="remove(item)" /></td>
+                      <td><p-button icon="pi pi-trash" (onClick)="remove(item)" /></td>
                   </tr>
               </ng-template>
             </p-table>
