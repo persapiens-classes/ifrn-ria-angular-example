@@ -4,10 +4,12 @@ import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
+import { PanelModule } from 'primeng/panel';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, ButtonModule, TableModule, InputTextModule],
+  imports: [RouterOutlet, FormsModule, ButtonModule, TableModule, InputTextModule, PanelModule, AutoFocusModule],
   //templateUrl: './app.component.html',
   template: `
     <main class="main">
@@ -15,24 +17,28 @@ import { InputTextModule } from 'primeng/inputtext';
         <div class="left-side">
           <h1>Hello, {{ name }}</h1>
 
-          <label for="name">Name:</label>
-          <input pInputText [(ngModel)]="name">
-          <p-button label="Insert" (onClick)="insert()" />
+          <p-panel header="Insert">
+            <label for="name">Name:</label>
+            <input pInputText [pAutoFocus]="true" [(ngModel)]="name" placeholder="Name to be inserted">
+            <p-button label="Insert" (onClick)="insert()" />
+          </p-panel>
 
-          <p-table [value]="names" >
-            <ng-template #header>
-              <tr>
-                  <th>Name</th>
-                  <th>Remove</th>
-              </tr>
-          </ng-template>
-            <ng-template #body let-item>
+          <p-panel header="Names">
+            <p-table [value]="names" >
+              <ng-template #header>
                 <tr>
-                    <td>{{ item }}</td>
-                    <td><p-button label="Remove" (onClick)="remove(item)" /></td>
+                    <th>Name</th>
+                    <th>Remove</th>
                 </tr>
             </ng-template>
-          </p-table>
+              <ng-template #body let-item>
+                  <tr>
+                      <td>{{ item }}</td>
+                      <td><p-button label="Remove" (onClick)="remove(item)" /></td>
+                  </tr>
+              </ng-template>
+            </p-table>
+          </p-panel>
         </div>  
       </div>
     </main>
