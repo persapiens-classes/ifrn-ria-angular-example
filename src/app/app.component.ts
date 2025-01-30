@@ -6,16 +6,16 @@ import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { HelloComponent } from './hello.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, ButtonModule, TableModule, InputTextModule, PanelModule, AutoFocusModule],
-  //templateUrl: './app.component.html',
+  imports: [RouterOutlet, FormsModule, ButtonModule, TableModule, InputTextModule, PanelModule, AutoFocusModule, HelloComponent],
   template: `
     <main class="main">
       <div class="content">
         <div class="left-side">
-          <h1>Hello, {{ name }}</h1>
+          <app-hello [helloName]="name"></app-hello>
 
           <p-panel header="Insert">
             <label for="name">Name:</label>
