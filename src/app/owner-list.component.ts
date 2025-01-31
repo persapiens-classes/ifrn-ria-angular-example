@@ -17,7 +17,15 @@ import { Owner } from './owner';
               <th>Name</th>
               <th>Remove</th>
           </tr>
-      </ng-template>
+          <th>
+              <p-columnFilter
+                  type="text"
+                  field="name"
+                  placeholder="Search by name"
+                  ariaLabel="Filter Name"
+              ></p-columnFilter>
+          </th>
+        </ng-template>
         <ng-template #body let-item>
             <tr>
                 <td>{{ item.name }}</td>
