@@ -4,13 +4,14 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { Owner } from './owner';
 
 @Component({
   selector: 'owner-list',
   imports: [FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule],
   template: `
     <p-panel header="List">
-      <p-table [value]="listNames" >
+      <p-table [value]="ownersList" >
         <ng-template #header>
           <tr>
               <th>Name</th>
@@ -19,7 +20,7 @@ import { AutoFocusModule } from 'primeng/autofocus';
       </ng-template>
         <ng-template #body let-item>
             <tr>
-                <td>{{ item }}</td>
+                <td>{{ item.name }}</td>
                 <td><p-button icon="pi pi-trash" (onClick)="remove(item)" /></td>
             </tr>
         </ng-template>
@@ -28,11 +29,11 @@ import { AutoFocusModule } from 'primeng/autofocus';
   `
 })
 export class OwnerListComponent {
-  @Input() listNames: Array<string> = []
+  @Input() ownersList: Array<Owner> = []
 
-  @Output() removeOutEvent = new EventEmitter<string>();
+  @Output() removeOutEvent = new EventEmitter<Owner>();
 
-  remove(item: string) {
+  remove(item: Owner) {
     this.removeOutEvent.emit(item);
   }
 }

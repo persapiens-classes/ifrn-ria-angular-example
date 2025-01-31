@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { OwnerInsertComponent } from "./owner-insert.component";
 import { OwnerListComponent } from './owner-list.component';
 import { PanelModule } from 'primeng/panel';
+import { Owner } from './owner';
 
 @Component({
   selector: 'owner-crud',
@@ -11,19 +12,19 @@ import { PanelModule } from 'primeng/panel';
     <p-panel header="Owner">
       <owner-insert (insertOutEvent)="insert($event)"></owner-insert>
 
-      <owner-list (removeOutEvent)="remove($event)" [listNames]="names"></owner-list>
+      <owner-list (removeOutEvent)="remove($event)" [ownersList]="owners"></owner-list>
     </p-panel>
   `,
   styleUrl: './app.component.scss'
 })
 export class OwnerCrudComponent {
-  names: Array<string> = []
+  owners: Array<Owner> = []
 
-  insert(name: string) {
-    this.names.push(name)
+  insert(owner: Owner) {
+    this.owners.push(owner)
   }
 
-  remove(item: string) {
-    this.names = this.names.filter(internalName => internalName !== item)
+  remove(owner: Owner) {
+    this.owners = this.owners.filter(internalOwner => internalOwner.name !== owner.name)
   }
 }

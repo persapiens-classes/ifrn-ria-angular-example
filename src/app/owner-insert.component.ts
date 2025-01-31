@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { Owner } from './owner';
 
 @Component({
   selector: 'owner-insert',
@@ -11,17 +12,18 @@ import { AutoFocusModule } from 'primeng/autofocus';
   template: `
     <p-panel header="Insert">
       <label for="name">Name:</label>
-      <input pInputText [pAutoFocus]="true" [(ngModel)]="insertName" placeholder="Name to be inserted">
+      <input pInputText [pAutoFocus]="true" [(ngModel)]="insertOwner.name" placeholder="Name to be inserted">
       <p-button icon="pi pi-plus" (onClick)="insert()" />
     </p-panel>
   `
 })
 export class OwnerInsertComponent {
-  insertName = ''
+  insertOwner = new Owner('')
 
-  @Output() insertOutEvent = new EventEmitter<string>();
+  @Output() insertOutEvent = new EventEmitter<Owner>();
 
   insert() {
-    this.insertOutEvent.emit(this.insertName);
+    this.insertOutEvent.emit(this.insertOwner);
+    this.insertOwner = new Owner('')
   }
 }
