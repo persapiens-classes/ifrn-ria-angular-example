@@ -14,7 +14,9 @@ import { Owner } from './owner';
       <p-table [value]="ownersList" >
         <ng-template #header>
           <tr>
-              <th>Name</th>
+              <th pSortableColumn="name" style="width:20%">
+                Name <p-sortIcon field="name" />
+              </th>
               <th>Remove</th>
           </tr>
           <th>
