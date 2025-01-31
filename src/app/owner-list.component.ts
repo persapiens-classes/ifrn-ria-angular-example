@@ -11,7 +11,12 @@ import { Owner } from './owner';
   imports: [FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule],
   template: `
     <p-panel header="List">
-      <p-table [value]="ownersList" >
+      <p-table 
+        [value]="ownersList" 
+        [rows]="3"
+        [paginator]="true"
+        [rowsPerPageOptions]="[3, 5, 10]"
+      >
         <ng-template #header>
           <tr>
               <th pSortableColumn="name" style="width:20%">
