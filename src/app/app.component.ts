@@ -5,21 +5,18 @@ import { HelloComponent } from './hello.component';
 import { OwnerInsertComponent } from "./owner-insert.component";
 import { OwnerListComponent } from './owner-list.component';
 import { PanelModule } from 'primeng/panel';
+import { OwnerCrudComponent } from './owner-crud.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, HelloComponent, OwnerInsertComponent, OwnerListComponent, PanelModule],
+  imports: [RouterOutlet, FormsModule, HelloComponent, OwnerCrudComponent, PanelModule],
   template: `
     <main class="main">
       <div class="content">
         <div class="left-side">
           <app-hello helloName="DEV"></app-hello>
 
-          <p-panel header="Owner">
-            <owner-insert (insertOutEvent)="insert($event)"></owner-insert>
-
-            <owner-list (removeOutEvent)="remove($event)" [listNames]="names"></owner-list>
-          </p-panel>
+          <owner-crud> </owner-crud>
         </div>  
       </div>
     </main>
