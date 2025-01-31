@@ -4,22 +4,38 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { Owner } from './owner';
 
 @Component({
-  selector: 'name-list',
+  selector: 'owner-list',
   imports: [FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule],
   template: `
     <p-panel header="List">
-      <p-table [value]="listNames" >
+      <p-table 
+        [value]="ownersList" 
+        [rows]="3"
+        [paginator]="true"
+        [rowsPerPageOptions]="[3, 5, 10]"
+      >
         <ng-template #header>
           <tr>
-              <th>Name</th>
+              <th pSortableColumn="name" style="width:20%">
+                Name <p-sortIcon field="name" />
+              </th>
               <th>Remove</th>
           </tr>
-      </ng-template>
+          <th>
+              <p-columnFilter
+                  type="text"
+                  field="name"
+                  placeholder="Search by name"
+                  ariaLabel="Filter Name"
+              ></p-columnFilter>
+          </th>
+        </ng-template>
         <ng-template #body let-item>
             <tr>
-                <td>{{ item }}</td>
+                <td>{{ item.name }}</td>
                 <td><p-button icon="pi pi-trash" (onClick)="remove(item)" /></td>
             </tr>
         </ng-template>
@@ -27,12 +43,12 @@ import { AutoFocusModule } from 'primeng/autofocus';
     </p-panel>
   `
 })
-export class ListComponent {
-  @Input() listNames: Array<string> = []
+export class OwnerListComponent {
+  @Input() ownersList: Array<Owner> = []
 
-  @Output() removeOutEvent = new EventEmitter<string>();
+  @Output() removeOutEvent = new EventEmitter<Owner>();
 
-  remove(item: string) {
+  remove(item: Owner) {
     this.removeOutEvent.emit(item);
   }
 }
