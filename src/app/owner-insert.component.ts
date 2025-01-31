@@ -6,7 +6,7 @@ import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
 
 @Component({
-  selector: 'name-insert',
+  selector: 'owner-insert',
   imports: [FormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule],
   template: `
     <p-panel header="Insert">
@@ -16,7 +16,7 @@ import { AutoFocusModule } from 'primeng/autofocus';
     </p-panel>
   `
 })
-export class InsertComponent {
+export class OwnerInsertComponent {
   insertName = ''
 
   @Output() insertOutEvent = new EventEmitter<string>();

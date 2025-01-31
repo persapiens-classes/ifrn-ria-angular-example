@@ -6,7 +6,7 @@ import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
 
 @Component({
-  selector: 'name-list',
+  selector: 'owner-list',
   imports: [FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule],
   template: `
     <p-panel header="List">
@@ -27,7 +27,7 @@ import { AutoFocusModule } from 'primeng/autofocus';
     </p-panel>
   `
 })
-export class ListComponent {
+export class OwnerListComponent {
   @Input() listNames: Array<string> = []
 
   @Output() removeOutEvent = new EventEmitter<string>();
