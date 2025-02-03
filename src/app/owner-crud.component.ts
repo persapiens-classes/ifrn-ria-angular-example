@@ -5,6 +5,7 @@ import { OwnerListComponent } from './owner-list.component';
 import { PanelModule } from 'primeng/panel';
 import { Owner } from './owner';
 import { DividerModule } from 'primeng/divider';
+import { OwnerService } from './owner-service';
 
 @Component({
   selector: 'owner-crud',
@@ -15,19 +16,27 @@ import { DividerModule } from 'primeng/divider';
 
       <p-divider />
 
-      <owner-list (removeOutEvent)="remove($event)" [ownersList]="owners"></owner-list>
+      <owner-list (removeOutEvent)="remove($event)" [ownersList]="findAll()"></owner-list>
     </p-panel>
   `,
   styleUrl: './app.component.scss'
 })
 export class OwnerCrudComponent {
-  owners: Array<Owner> = []
+  ownerService: OwnerService
+
+  constructor(ownerService: OwnerService) {
+    this.ownerService = ownerService
+  }
 
   insert(owner: Owner) {
-    this.owners.push(owner)
+    this.ownerService.insert(owner)
   }
 
   remove(owner: Owner) {
-    this.owners = this.owners.filter(internalOwner => internalOwner.name !== owner.name)
+    this.ownerService.remove(owner.name)
+  }
+
+  findAll(): Array<Owner> {
+    return this.ownerService.findAll()
   }
 }
