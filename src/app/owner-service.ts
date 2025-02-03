@@ -1,8 +1,12 @@
+import { Injectable } from "@angular/core"
 import { Owner } from "./owner"
 
+@Injectable({
+    providedIn: 'root'
+  })
 export class OwnerService {
 
-private beans = new Array<Owner>
+    private beans = new Array<Owner>
 
     createBean(): Owner{
         return new Owner("")
