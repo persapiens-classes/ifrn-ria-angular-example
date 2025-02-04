@@ -5,11 +5,18 @@ import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { Owner } from './owner';
+import { Router } from '@angular/router';
+import { OwnerService } from './owner-service';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'owner-list',
-  imports: [FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule],
+  imports: [FormsModule, ButtonModule, TableModule, PanelModule, AutoFocusModule, DividerModule],
   template: `
+    <p-button (onClick)="startInsert()" autofocus="true">New</p-button>
+
+    <p-divider />
+
     <p-panel header="List">
       <p-table 
         [value]="ownersList" 
@@ -44,11 +51,30 @@ import { Owner } from './owner';
   `
 })
 export class OwnerListComponent {
-  @Input() ownersList: Array<Owner> = []
+  ownersList!: Array<Owner>
+  router: Router
+  ownerService: OwnerService
 
-  @Output() removeOutEvent = new EventEmitter<Owner>();
+  constructor(private newRouter: Router, private newOwnerService: OwnerService) {
+    this.router = newRouter;
+    this.ownerService = newOwnerService
+  }
+
+  ngOnInit() {
+    this.findAll()
+  }
 
   remove(item: Owner) {
-    this.removeOutEvent.emit(item);
+    this.ownerService.remove(item.name)
+
+    this.findAll()
+  }
+
+  startInsert(): void {
+    this.router.navigate(["owners/new"])
+  }
+
+  findAll(): void {
+    this.ownersList = this.ownerService.findAll()
   }
 }
