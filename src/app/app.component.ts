@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
 import { HelloComponent } from './hello.component';
-import { OwnerInsertComponent } from "./owner-insert.component";
-import { OwnerListComponent } from './owner-list.component';
 import { PanelModule } from 'primeng/panel';
 import { OwnerCrudComponent } from './owner-crud.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, HelloComponent, OwnerCrudComponent, PanelModule],
+  imports: [FormsModule, HelloComponent, OwnerCrudComponent, PanelModule],
   template: `
     <main class="main">
       <div class="content">
@@ -20,8 +17,6 @@ import { OwnerCrudComponent } from './owner-crud.component';
         </div>  
       </div>
     </main>
-
-    <router-outlet />
   `,
   styleUrl: './app.component.scss'
 })
