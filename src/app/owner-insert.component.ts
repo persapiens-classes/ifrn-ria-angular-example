@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
@@ -8,18 +8,36 @@ import { DividerModule } from 'primeng/divider';
 import { Owner } from './owner';
 import { Router } from '@angular/router';
 import { OwnerService } from './owner-service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'owner-insert',
-  imports: [FormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule],
+  imports: [FormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule],
   template: `
-    <p-panel header="Insert">
-      <label for="name">Name:</label>
-      <input pInputText [pAutoFocus]="true" [(ngModel)]="insertOwner.name" placeholder="Name to be inserted">
-      <p-divider />
-      <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}"/>
-      <p-button icon="pi pi-times" (onClick)="cancelInsert()" />
-    </p-panel>
+    <form #insertForm="ngForm">
+      <p-panel header="Insert">
+        <label for="name">Name:</label>
+        <input id="name" 
+          name="inputName"
+          #inputName="ngModel"
+          pInputText 
+          [pAutoFocus]="true" 
+          [(ngModel)]="insertOwner.name" 
+          placeholder="Name to be inserted" 
+          required
+          minlength="3">
+          <div
+            *ngIf="inputName.invalid && (inputName.dirty || inputName.touched)"
+            class="alert"
+          >
+            <div *ngIf="inputName.errors?.['required']">Name is required.</div>
+            <div *ngIf="inputName.errors?.['minlength']">Name must be at least 3 characters long.</div>
+          </div>
+        <p-divider />
+        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" disabled="{{ inputName.invalid }}"/>
+        <p-button icon="pi pi-times" (onClick)="cancelInsert(insertForm)"/>
+      </p-panel>
+    </form>
   `
 })
 export class OwnerInsertComponent {
@@ -38,7 +56,8 @@ export class OwnerInsertComponent {
     this.router.navigate(["owners"])
   }
 
-  cancelInsert() {
+  cancelInsert(form: NgForm) {
+    form.control.markAsDirty()
     this.router.navigate(["owners"])
   }
 }
