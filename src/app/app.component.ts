@@ -1,21 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HelloComponent } from './hello.component';
 import { PanelModule } from 'primeng/panel';
-import { OwnerCrudComponent } from './owner-crud.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, HelloComponent, OwnerCrudComponent, PanelModule],
+  imports: [FormsModule, PanelModule, RouterOutlet],
   template: `
     <main class="main">
-      <div class="content">
-        <div class="left-side">
-          <app-hello helloName="DEV"></app-hello>
-
-          <owner-crud> </owner-crud>
-        </div>  
-      </div>
+          <router-outlet></router-outlet>
     </main>
   `,
   styleUrl: './app.component.scss'
