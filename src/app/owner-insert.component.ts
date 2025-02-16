@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
@@ -9,10 +9,12 @@ import { Owner } from './owner';
 import { Router } from '@angular/router';
 import { OwnerService } from './owner-service';
 import { CommonModule } from '@angular/common';
+import { TooltipModule } from 'primeng/tooltip';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'owner-insert',
-  imports: [ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule],
+  imports: [ReactiveFormsModule, ButtonModule, InputTextModule, PanelModule, AutoFocusModule, DividerModule, CommonModule, TooltipModule],
   template: `
     <form [formGroup]="insertForm">
       <p-panel header="Insert">
@@ -31,30 +33,48 @@ import { CommonModule } from '@angular/common';
           <div *ngIf="insertForm.get('inputName')?.errors?.['minlength']">Name must be at least 3 characters long.</div>
         </div>
         <p-divider />
-        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="insertForm.invalid"/>
-        <p-button icon="pi pi-times" (onClick)="cancelInsert()"/>
+        <p-button icon="pi pi-check" (onClick)="insert()" [style]="{'margin-right': '10px'}" [disabled]="insertForm.invalid" pTooltip="Save the owner"/>
+        <p-button icon="pi pi-times" (onClick)="cancelInsert()" pTooltip="Cancel"/>
       </p-panel>
     </form>
   `
 })
 export class OwnerInsertComponent {
-  insertForm: FormGroup
+  insertForm: FormGroup;
+  isSubmitting = signal(false); // Signal to control submitting state
 
-  router: Router
-  ownerService: OwnerService
-
-  constructor(private newRouter: Router, private newOwnerService: OwnerService, private formBuilder: FormBuilder) {
-    this.router = newRouter
-    this.ownerService = newOwnerService
-    this.insertForm = formBuilder.group({
+  constructor(
+    private router: Router,
+    private ownerService: OwnerService, 
+    private messageService: MessageService,
+    private formBuilder: FormBuilder
+  ) {
+    this.insertForm = this.formBuilder.group({
       inputName: ['', [Validators.required, Validators.minLength(3)]]
     })
   }
 
-  insert() {
-    if (this.insertForm.valid) {
+  async insert() {
+    if (this.insertForm.valid && !this.isSubmitting()) {
+      this.isSubmitting.set(true)
+
       const newOwner = new Owner(this.insertForm.value.inputName)
-      this.ownerService.insert(newOwner)
+      const result = await this.ownerService.insert(newOwner)
+
+      this.isSubmitting.set(false);
+      if (result) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Owner inserted',
+          detail: 'Owner inserted ok.'
+        })
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Owner not inserted',
+          detail: 'Owner not inserted.'
+        })
+      }
       this.router.navigate(["owners"])
     }
   }
