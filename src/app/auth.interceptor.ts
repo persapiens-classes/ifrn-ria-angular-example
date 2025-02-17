@@ -1,5 +1,7 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 export function authIntercept(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
     // Verify if request is from AuthService
@@ -8,7 +10,8 @@ export function authIntercept(req: HttpRequest<unknown>, next: HttpHandlerFn): O
     }
 
     // If not login request, add token
-    const token = localStorage.getItem('token')
+    const authService = inject(AuthService); // Injetando o serviço
+    const token = authService.authenticatedToken()
     if (token) {
       const cloned = req.clone({
         setHeaders: {
