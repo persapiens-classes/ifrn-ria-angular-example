@@ -46,7 +46,11 @@ export class AuthService {
   }
 
   authenticatedLogin(): string {
-    const decodedToken: any = jwtDecode(localStorage.getItem('token')!)
+    const decodedToken: any = jwtDecode(this.authenticatedToken()!)
     return decodedToken?.sub // Usually, login is at "sub"
+  }
+
+  authenticatedToken(): string | null {
+    return localStorage.getItem('token')
   }
 }
